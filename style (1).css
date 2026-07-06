@@ -1,0 +1,359 @@
+/* ---------- tokens ---------- */
+:root{
+  --blush: #ffd9ea;
+  --blush-deep: #ffb8d9;
+  --lavender: #d9c8ff;
+  --peach: #ffd6a8;
+  --rose: #ff6fa5;
+  --rose-deep: #e8447f;
+  --plum: #5b3a5e;
+  --plum-soft: #8a6690;
+  --cream: #fff8f3;
+  --shadow: rgba(232, 68, 127, 0.25);
+}
+
+*{ box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+html, body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+  font-family: 'Quicksand', sans-serif;
+  color: var(--plum);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(255,255,255,0.5), transparent 45%),
+    linear-gradient(160deg, var(--blush) 0%, var(--lavender) 55%, var(--peach) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ---------- ambient bg hearts ---------- */
+.bg-hearts{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.bg-heart{
+  position: absolute;
+  bottom: -10%;
+  font-size: 1.4rem;
+  opacity: 0.35;
+  animation-name: floatUp;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+@keyframes floatUp{
+  0%{ transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10%{ opacity: 0.4; }
+  90%{ opacity: 0.35; }
+  100%{ transform: translateY(-110vh) translateX(var(--drift, 20px)) rotate(25deg); opacity: 0; }
+}
+
+/* ---------- sparkle layer (idle twinkles) ---------- */
+.sparkle-layer{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.sparkle{
+  position: absolute;
+  width: 6px; height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 2px rgba(255,255,255,0.8);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+@keyframes twinkle{
+  0%, 100%{ opacity: 0; transform: scale(0.4); }
+  50%{ opacity: 1; transform: scale(1); }
+}
+
+/* ---------- layout ---------- */
+.stage{
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 3.2rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.eyebrow{
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--rose-deep);
+  background: rgba(255,255,255,0.55);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  margin: 0 0 1.1rem;
+}
+
+.title{
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 2rem;
+  font-size: clamp(1.8rem, 5.2vw, 2.7rem);
+  color: var(--plum);
+}
+.title-line{ display: block; }
+.name{
+  color: var(--rose-deep);
+  position: relative;
+  white-space: nowrap;
+}
+.subtitle{
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--rose-deep);
+  margin: -1.3rem 0 2rem;
+  letter-spacing: 0.02em;
+}
+
+.name::after{
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: 0.06em;
+  height: 0.3em;
+  background: var(--peach);
+  opacity: 0.6;
+  border-radius: 4px;
+  z-index: -1;
+}
+
+/* ---------- counter card ---------- */
+.counter-card{
+  position: relative;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(6px);
+  border: 2px solid rgba(255,255,255,0.9);
+  border-radius: 28px;
+  padding: 1.6rem 2.6rem;
+  margin-bottom: 2.1rem;
+  box-shadow: 0 18px 40px -12px var(--shadow);
+  transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+}
+.counter-card.pulse{
+  transform: scale(1.08);
+}
+.counter-glow{
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle, rgba(255,111,165,0.35), transparent 65%);
+  z-index: -1;
+  filter: blur(6px);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse{
+  0%, 100%{ opacity: 0.5; }
+  50%{ opacity: 0.9; }
+}
+.count-number{
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3rem, 12vw, 4.6rem);
+  line-height: 1;
+  color: var(--rose-deep);
+  text-shadow: 0 4px 0 rgba(255,255,255,0.6);
+}
+.count-label{
+  font-weight: 600;
+  color: var(--plum-soft);
+  letter-spacing: 0.03em;
+  margin-top: 0.3rem;
+}
+
+/* ---------- kiss button ---------- */
+.kiss-button{
+  position: relative;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #fff;
+  background: linear-gradient(145deg, var(--rose) 0%, var(--rose-deep) 100%);
+  border: none;
+  border-radius: 999px;
+  padding: 1.3rem 2.6rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 12px 0 var(--rose-deep), 0 20px 30px -8px var(--shadow);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  animation: breathe 2.6s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+.kiss-button-emoji{
+  font-size: 1.5rem;
+  transform-origin: center;
+}
+.kiss-button:hover{
+  transform: translateY(-2px);
+}
+.kiss-button:active{
+  transform: translateY(8px);
+  box-shadow: 0 4px 0 var(--rose-deep), 0 8px 16px -6px var(--shadow);
+}
+@keyframes breathe{
+  0%, 100%{ transform: scale(1); }
+  50%{ transform: scale(1.035); }
+}
+.kiss-button-ring{
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 3px solid var(--rose);
+  opacity: 0;
+  pointer-events: none;
+}
+.kiss-button.ripple .kiss-button-ring{
+  animation: ringOut 0.55s ease-out;
+}
+@keyframes ringOut{
+  0%{ opacity: 0.8; transform: scale(1); }
+  100%{ opacity: 0; transform: scale(1.45); }
+}
+.kiss-button.tapped{
+  animation: squish 0.28s ease;
+}
+@keyframes squish{
+  0%{ transform: scale(1); }
+  35%{ transform: scale(0.88, 1.08); }
+  60%{ transform: scale(1.08, 0.92); }
+  100%{ transform: scale(1); }
+}
+
+/* ---------- message ---------- */
+.message{
+  min-height: 1.6em;
+  margin-top: 1.6rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--plum-soft);
+}
+.message.change{
+  animation: popIn 0.35s ease;
+}
+@keyframes popIn{
+  0%{ opacity: 0; transform: translateY(6px) scale(0.95); }
+  100%{ opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- milestone strip ---------- */
+.milestone-strip{
+  width: 100%;
+  max-width: 420px;
+  margin-top: 2.4rem;
+}
+.milestone-track{
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+.milestone-dot{
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.6);
+  border: 2px solid rgba(255,255,255,0.8);
+  position: relative;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.milestone-dot.done{
+  background: var(--rose);
+  border-color: var(--rose-deep);
+  transform: scaleY(1.15);
+}
+.milestone-dot::after{
+  content: attr(data-label);
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--plum-soft);
+  white-space: nowrap;
+}
+
+/* ---------- footer ---------- */
+.footer{
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: var(--plum-soft);
+  opacity: 0.75;
+}
+
+/* ---------- kiss burst particles (spawned by JS) ---------- */
+.kiss-particle{
+  position: fixed;
+  z-index: 5;
+  pointer-events: none;
+  font-size: 1.4rem;
+  will-change: transform, opacity;
+  animation: burst 0.9s ease-out forwards;
+}
+@keyframes burst{
+  0%{ opacity: 1; transform: translate(0,0) scale(0.6) rotate(0deg); }
+  100%{ opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.1) rotate(var(--rot)); }
+}
+
+/* ---------- confetti ---------- */
+.confetti-layer{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  overflow: hidden;
+}
+.confetti-piece{
+  position: absolute;
+  top: -5%;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall{
+  0%{ transform: translateY(0) rotate(0deg); opacity: 1; }
+  100%{ transform: translateY(110vh) rotate(540deg); opacity: 0.9; }
+}
+
+/* ---------- screen shake for big milestones ---------- */
+.shake{
+  animation: shake 0.5s ease;
+}
+@keyframes shake{
+  0%, 100%{ transform: translateX(0); }
+  20%{ transform: translateX(-6px) rotate(-0.3deg); }
+  40%{ transform: translateX(6px) rotate(0.3deg); }
+  60%{ transform: translateX(-4px); }
+  80%{ transform: translateX(4px); }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 420px){
+  .counter-card{ padding: 1.3rem 1.8rem; }
+  .kiss-button{ padding: 1.1rem 2rem; font-size: 1.05rem; }
+  .milestone-dot::after{ display: none; }
+}
